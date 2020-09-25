@@ -14,20 +14,8 @@
       </button>
       <div class="collapse navbar-collapse" :class=" isShow ? 'show': ''">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">
-              Home
-              <span class="sr-only">(current)</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Services</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Contact</a>
+          <li v-for="(item, index) in routes" :key="index">
+            <router-link :to="item.path" class="nav-link text-capitalize">{{ item.name }}</router-link>
           </li>
         </ul>
       </div>
@@ -42,6 +30,13 @@ export default {
     return {
       isShow: false
     };
+  },
+  computed: {
+    routes() {
+      return this.$router.options.routes.map(item => {
+        return { name: item.name, path: item.path };
+      });
+    }
   }
 };
 </script>
