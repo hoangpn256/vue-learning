@@ -25,7 +25,8 @@ Vue.use(VuejsDialog);
 // config
 Vue.config.productionTip = false;
 const router = new VueRouter({
-  linkActiveClass: 'active',
+  linkExactActiveClass: "active",
+  mode: "history",
   routes
 });
 

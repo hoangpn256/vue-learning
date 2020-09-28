@@ -2,7 +2,7 @@
   <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light shadow fixed-top">
     <div class="container">
-      <a class="navbar-brand" href="#">Start Bootstrap</a>
+      <router-link to="/" class="navbar-brand">Home page</router-link>
       <button
         class="navbar-toggler"
         type="button"
@@ -14,8 +14,11 @@
       </button>
       <div class="collapse navbar-collapse" :class=" isShow ? 'show': ''">
         <ul class="navbar-nav ml-auto">
-          <li v-for="(item, index) in routes" :key="index">
-            <router-link :to="item.path" class="nav-link text-capitalize">{{ item.name }}</router-link>
+          <li>
+            <router-link to="/" class="nav-link text-capitalize">Home</router-link>
+          </li>
+          <li>
+            <router-link to="/about" class="nav-link text-capitalize">About</router-link>
           </li>
         </ul>
       </div>

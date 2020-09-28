@@ -1,9 +1,9 @@
 import PublicLayout from "./layouts/App";
 import AdminLayout from "./layouts/Admin";
 // public component
-import Login from "./components/Login";
 import Image from "./view/client/images/index";
-
+import ImageDetail from "./view/client/images/_id";
+import About from "./view/client/About";
 //admin component
 const routes = [
   {
@@ -12,12 +12,17 @@ const routes = [
     component: PublicLayout,
     children: [
       {
-        path: "/login",
-        component: Login
+        path: "/",
+        component: Image
       },
       {
-        path: "/image",
-        component: Image
+        path: "/images/:id",
+        name: 'imageDetail',
+        component: ImageDetail
+      },
+      {
+        path: "/about",
+        component: About
       }
     ]
   },

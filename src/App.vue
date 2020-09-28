@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <!-- The Nav and Header Image -->
+    <router-view />
   </div>
 </template>
 

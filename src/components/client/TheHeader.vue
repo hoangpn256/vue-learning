@@ -20,4 +20,11 @@ export default {
 h1, p{
   color: mintcream;
 }
+.masthead {
+  height: 100vh;
+  background-image: url("https://source.unsplash.com/1920x1080");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 </style>

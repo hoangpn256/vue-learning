@@ -1,36 +1,33 @@
 <template>
-  <div id="app">
+  <div id="public-wrap">
     <!-- The Nav and Header Image -->
     <TheNav></TheNav>
-    <TheHeader></TheHeader>
     <!-- Page Content -->
-    <section class="py-5">
-      <div class="container">
-        <h2 class="font-weight-light">Page Content</h2>
-      </div>
+    <TheHeader v-if="isIndex"></TheHeader>
+    <section class="py-5 mt-3 container">
+      <router-view />
     </section>
     <!-- The Footer -->
     <TheFooter></TheFooter>
   </div>
 </template>
 <script>
-import TheNav from "../components/client/TheNav";
-import TheHeader from "../components/client/TheHeader";
-import TheFooter from "../components/client/TheFooter";
+import TheNav from "@/components/client/TheNav";
+import TheFooter from "@/components/client/TheFooter";
+import TheHeader from "@/components/client/TheHeader";
 
 export default {
   name: "PublicLayout",
   components: {
     TheNav,
-    TheHeader,
-    TheFooter
+    TheFooter,
+    TheHeader
+  },
+  computed: {
+    isIndex() {
+      return this.$route.path == '/'
+    }
   }
 };
 </script>
-<style>
-#app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-</style>
+ 
