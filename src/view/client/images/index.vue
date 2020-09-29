@@ -4,7 +4,7 @@
       <b-row>
         <b-col md="4" xs="12" class="p-1" v-for="(image, index) in images" :key="index">
           <div class="hovereffect">
-            <img v-lazy="image.largeImageURL" class="w-100" />
+            <img v-lazy="image.image.medium.url" class="w-100" />
             <div class="overlay">
               <h2>{{image.title}}</h2>
               <a class="info mx-1" @click.prevent="openLightBox(index)" href="#">Full</a>
@@ -27,8 +27,10 @@
 </template>
 
 <script>
+import ImageService from '@/api/images.api.js';
 import LightBox from "vue-image-lightbox";
 import "vue-image-lightbox/dist/vue-image-lightbox.min.css";
+
 export default {
   name: "ImageLists",
   components: {
@@ -40,35 +42,25 @@ export default {
       randomKey: "",
       isShowLightBox: false,
       startLightBox: 0,
-      images: [],
-      image: { src: "https://source.unsplash.com/random?bikini" }
+      images: []
     };
   },
   async created() {
-    await this.fetchImages();
+    // await this.fetchImages();
+    await this.fetchImages2();
   },
   methods: {
-    async fetchImages() {
-      for (let i = 0; i < 6; i++) {
-        let index = Math.floor(Math.random() * 15) + 1;
-        let url = `https://pixabay.com/api/?key=18345307-957535cb27bdd594c80dc1c55&q=bikini&image_type=photo&pretty=true&page=${index}`;
-        let response = await fetch(url);
-        let data = await response.json();
-        let date = new Date(`${9 - i}, 20, 2020`);
-        let imageProcess = data.hits.map(item => {
-          item.date = date;
-          item.title = "Image Title";
-          return item;
-        });
-        this.images = this.images.concat(imageProcess);
-        console.log(this.images);
-      }
+    async fetchImages2(){
+      // https://pixabay.com/api/?key=18345307-957535cb27bdd594c80dc1c55&q=bikini&image_type=photo&pretty=true&page=${index}
+      const response = await ImageService.getAll();
+      console.log(response.data.data.images);
+      this.images = response.data.data.images
     },
     mediaLightBox(images) {
       let imageProcess = images.map(item => {
         return {
-          src: item.largeImageURL,
-          thumb: item.previewURL,
+          src: item.image.url,
+          thumb: item.image.thumb.url,
           caption: item.tags
         };
       });
@@ -80,14 +72,6 @@ export default {
       this.randomKey = Math.random()
         .toString(36)
         .substring(7); // for re-render LightBox Component
-    },
-    showDateTitleProcess(date) {
-      if (this.tempDate == date) {
-        return false;
-      } else {
-        this.tempDate = date;
-        return true;
-      }
     }
   }
 };
