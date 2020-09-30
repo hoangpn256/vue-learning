@@ -27,7 +27,9 @@
 </template>
 
 <script>
-import ImageService from '@/api/images.api.js';
+// import NotificationService from "@/lib/notification.lib.js"
+import { mapActions, mapGetters } from "vuex";
+// import ImageService from "@/api/images.api.js";
 import LightBox from "vue-image-lightbox";
 import "vue-image-lightbox/dist/vue-image-lightbox.min.css";
 
@@ -45,17 +47,26 @@ export default {
       images: []
     };
   },
+  computed: {
+    ...mapGetters({
+      storeImages: "Image/getImages"
+    })
+  },
   async created() {
-    // await this.fetchImages();
-    await this.fetchImages2();
+    // NotificationService.serverError();
+    if(this.storeImages.length == 0){
+      await this.fetchImages();
+    }
+    this.images = this.storeImages;
   },
   methods: {
-    async fetchImages2(){
-      // https://pixabay.com/api/?key=18345307-957535cb27bdd594c80dc1c55&q=bikini&image_type=photo&pretty=true&page=${index}
-      const response = await ImageService.getAll();
-      console.log(response.data.data.images);
-      this.images = response.data.data.images
-    },
+    ...mapActions({fetchImages: "Image/fetchImages"}),
+    // async fetchImages() {
+    //   // https://pixabay.com/api/?key=18345307-957535cb27bdd594c80dc1c55&q=bikini&image_type=photo&pretty=true&page=${index}
+    //   const response = await ImageService.getAll();
+    //   console.log(response.data.data.images);
+    //   this.images = response.data.data.images;
+    // },
     mediaLightBox(images) {
       let imageProcess = images.map(item => {
         return {

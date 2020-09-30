@@ -16,4 +16,8 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+#app .vue-notification-group{
+  margin-top: 60px;
+}
 </style>
