@@ -21,7 +21,7 @@
   </div>
 </template>
 <script>
-import ImageService from "@/api/images.api.js";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
   name: "ImageDetail",
@@ -32,13 +32,17 @@ export default {
     };
   },
   async created() {
-    await this.getInformation();
+    await this.fetchImage({ id: this.imageId });
+    this.imageDetail = this.storeImage;
+  },
+  computed: {
+    ...mapGetters({
+      storeImage: "Image/getImage",
+      storeImages: "Image/getImages"
+    })
   },
   methods: {
-    async getInformation() {
-      const response = await ImageService.getDetail(this.imageId);
-      this.imageDetail = response.data.data;
-    }
+    ...mapActions({ fetchImage: "Image/fetchImage" })
   }
 };
 </script>

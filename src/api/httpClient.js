@@ -39,7 +39,10 @@ const errorInterceptor = error => {
       NotificationService.authenticationError();
       router.push("/about");
       break;
-
+    case 404:
+      NotificationService.notFound();
+      router.push("/");
+      break;
     default:
       Notification.serverError();
       router.push("/500");
