@@ -16,7 +16,7 @@
                   <b-icon icon="person-fill" aria-hidden="true" scale="2"></b-icon>
                 </b-col>
                 <b-col cols="10">
-                  <b-form-input placeholder="Your account" v-model="userName"></b-form-input>
+                  <b-form-input placeholder="Your email" v-model="email"></b-form-input>
                 </b-col>
               </b-row>
               <b-row class="my-2">
@@ -24,15 +24,24 @@
                   cols="2"
                   class="d-flex align-items-center justify-content-center text-secondary"
                 >
-                <b-icon icon="key" aria-hidden="true" scale="2"></b-icon>
+                  <b-icon icon="key" aria-hidden="true" scale="2"></b-icon>
                 </b-col>
                 <b-col cols="10" class="position-relative">
-                  <b-form-input :type="isShowPassword ? 'text' : 'password'" placeholder="Your password" v-model="password"></b-form-input>
-                  <b-icon :icon="isShowPassword ? 'eye-fill' : 'eye-slash-fill'" scale="2" class="position-absolute text-secondary icon" @click="isShowPassword = !isShowPassword"></b-icon>
+                  <b-form-input
+                    :type="isShowPassword ? 'text' : 'password'"
+                    placeholder="Your password"
+                    v-model="password"
+                  ></b-form-input>
+                  <b-icon
+                    :icon="isShowPassword ? 'eye-fill' : 'eye-slash-fill'"
+                    scale="2"
+                    class="position-absolute text-secondary icon"
+                    @click="isShowPassword = !isShowPassword"
+                  ></b-icon>
                 </b-col>
               </b-row>
               <b-row class="d-flex align-items-center justify-content-center mt-5">
-                <b-button class="rounded-10 btn-info btn-150px" size="lg">Login</b-button>
+                <b-button class="rounded-10 btn-info btn-150px" size="lg" @click="login()">Login</b-button>
               </b-row>
             </form>
           </b-col>
@@ -43,25 +52,35 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from "vuex";
 export default {
   name: "Login",
   data() {
     return {
-      userName: "",
+      email: "",
       password: "",
       isShowPassword: false
     };
   },
+  computed: {
+    ...mapGetters({ user: "Auth/getProfile", token: "Auth/getToken" })
+  },
   methods: {
+    ...mapActions({ loginAction: "Auth/login" }),
     formatter(string) {
       return string.toLowerCase();
+    },
+    async login() {
+      const params = { email: this.email, password: this.password };
+      await this.loginAction({ params: params });
+      this.$router.push({ path: "/" });
     }
   }
 };
 </script>
 <style scoped>
 body {
-  background-color: gray
+  background-color: gray;
 }
 .wrap-login .title {
   min-height: 400px;
@@ -70,15 +89,15 @@ body {
 .wrap-login .form {
   min-height: 500px;
 }
-.icon{
+.icon {
   right: 25px;
   top: 10px;
   z-index: 2;
 }
-.rounded-10{
+.rounded-10 {
   border-radius: 5rem;
 }
-.btn-150px{
+.btn-150px {
   min-width: 150px;
 }
 </style>

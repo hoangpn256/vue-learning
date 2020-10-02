@@ -3,7 +3,7 @@ import Vuex from "vuex";
 import createLogger from "vuex/dist/logger";
 
 // import the auto exporter
-import modules from "./modules/index";
+import modules from "./modules";
 
 Vue.use(Vuex);
 const debug = process.env.NODE_ENV !== "production";

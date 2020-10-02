@@ -3,6 +3,8 @@
  */
 import ImageService from "@/api/images.api.js";
 
+const SET_IMAGE = "SET_IMAGE";
+const SET_IMAGES = "SET_IMAGES";
 const initState = () => ({
   images: [],
   image: {}
@@ -26,10 +28,10 @@ const mutations = {
       state[key] = newState[key];
     });
   },
-  SET_IMAGE(state, data) {
+  [SET_IMAGE](state, data) {
     state.image = data;
   },
-  SET_IMAGES(state, data) {
+  [SET_IMAGES](state, data) {
     state.images = data;
   }
 };
@@ -39,8 +41,12 @@ const actions = {
    * fetch images from server
    */
   async fetchImages({ commit }) {
-    const response = await ImageService.getAll();
-    commit("SET_IMAGES", response.data.data.images);
+    try{
+      const response = await ImageService.getAll();
+      commit(SET_IMAGES, response.data.data.images);
+    }catch(error) {
+      console.log(error)
+    }
   },
   /**
    * if image exists in images, then find and setImage
@@ -55,7 +61,7 @@ const actions = {
       const response = await ImageService.getDetail(id);
       imageData = response.data.data;
     }
-    commit("SET_IMAGE", imageData);
+    commit(SET_IMAGE, imageData);
   }
 };
 

@@ -8,7 +8,8 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 import VuejsDialog from "vuejs-dialog";
 import "vuejs-dialog/dist/vuejs-dialog.min.css";
 import router from "@/routes";
-import store from "@/store/index"
+import store from "@/store/index";
+import httpClient from "@/api/httpClient";
 
 Vue.use(VueLazyload, {
   preLoad: 1.3,
@@ -23,6 +24,14 @@ Vue.use(VuejsDialog);
 // config
 Vue.config.productionTip = false;
 
+//httpClient init header
+const localStorateToken = localStorage.getItem("user-token");
+if (localStorateToken) {
+  const bearerToken = "Bearer " + localStorateToken;
+  httpClient.defaults.headers.common["Authorization"] = bearerToken;
+}
+
+// Vue instance init
 new Vue({
   render: h => h(App),
   router,

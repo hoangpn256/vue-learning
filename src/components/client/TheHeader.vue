@@ -17,7 +17,8 @@ export default {
 };
 </script>
 <style scoped>
-h1, p{
+h1,
+p {
   color: mintcream;
 }
 .masthead {
